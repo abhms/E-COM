@@ -99,7 +99,7 @@ export default async function handler(
     } else {
       console.log("Database not connected");
     }
-
+  console.log("first")
     const newUser = new User({
       name,
       email,
