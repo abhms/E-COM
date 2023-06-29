@@ -1,24 +1,42 @@
 import { useState } from 'react';
 import { Navbar } from '../../components/Navbar';
 import 'tailwindcss/tailwind.css';
+async function signIn(email: string, password: string) {
+  const response = await fetch('/api/signin', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ email, password }),
+  });
 
+  const data = await response.json();
+
+  if (response.ok) {
+    // Sign-in successful
+    const { token } = data;
+  console.log(data,"tokenenen");
+    // Save the token to local storage
+    localStorage.setItem('token', token);
+  } else {
+    // Sign-in failed
+    console.error(data.error);
+  }
+}
 const signin: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    // TODO: Perform login logic
-    console.log('Login:', email, password);
+    await signIn(email, password);
   };
-  console.log("object");
   return (
     <>
     <Navbar/>
     <div className="max-w-md mx-auto">
       <h1 className="text-2xl font-bold mb-4">Login</h1>
-      <form onSubmit={handleLogin}>
+      <form onSubmit={handleSignIn}>
         <div className="mb-4">
           <label htmlFor="email" className="block mb-2">
             Email:

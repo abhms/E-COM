@@ -24,6 +24,9 @@ const UserSchema = new mongoose.Schema({
   name: String,
   email: String,
   password: String,
+},
+{
+  timestamps: true,
 });
 
 const User = mongoose.models.users || mongoose.model("users", UserSchema);

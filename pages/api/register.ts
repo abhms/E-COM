@@ -1,117 +1,42 @@
-// import { NextApiRequest, NextApiResponse } from 'next';
-// import User from "../../models/User"
-// export default async (req: NextApiRequest, res: NextApiResponse) {
-//   if (req.method === 'POST') {
-//     // Get the form data from the request body
-//     const { name, email, password } = req.body;
-//
-//     // Perform form validation
-//     if (!name || !email || !password) {
-//       return res.status(400).json({ error: 'All fields are required' });
-//     }
-//     const UserModel = await User();
-//     const userDoc = new UserModel({
-//         name,
-//         email,
-//         password,
+import { NextApiRequest, NextApiResponse } from 'next';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import User from '../../models/User';
 
-//       });
+const secretKey = 'your-secret-key'; // Replace with your secret key
 
-//       await userDoc.save();
-//     // TODO: Perform registration logic
-//     // Register the user using the provided name, email, and password
-//     // Example: save the user to a database
-
-//     return res.status(200).json({ message: 'Registration successful' });
-//   } else {
-//     return res.status(405).json({ error: 'Method not allowed' });
-//   }
-// }
-
-// import { NextApiRequest, NextApiResponse } from 'next';
-// import User from '../../models/User';
-// import { connect } from '../../models/db';
-
-// export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-//   try {
-//     // Example: Create a new user
-//     const { name, email, password } = req.body;
-//     console.log(req.body,"ppppp");
-//     await connect();
-//     const newUser = new User({
-//       name,
-//       email,
-//       password,
-//     });
-
-//     await newUser.save();
-
-//     // Return the response
-//     res.status(200).json({ message: 'User created successfully' });
-//   } catch (error) {
-//     // Handle errors
-//     console.error('Error:', error);
-//     res.status(500).json({ error: 'An internal server error occurred' });
-//   }
-// }
-
-import { NextApiRequest, NextApiResponse } from "next";
-import User from "../../models/User";
-import mongoose from "../../models/db";
-
-// export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-//   try {
-//     // Example: Create a new user
-//     const { name, email, password } = req.body;
-
-//     // Establish database connection
-//     await connect();
-
-//     // Create a new user instance
-//     const newUser = new User({
-//       name,
-//       email,
-//       password,
-//     });
-
-//     // Save the new user to the database
-//     await newUser.save();
-
-//     // Return the response
-//     res.status(200).json({ message: 'User created successfully' });
-//   } catch (error) {
-//     // Handle errors
-//     console.error('Error:', error);
-//     res.status(500).json({ error: 'An internal server error occurred' });
-//   }
-// }
-export default async function handler(
+export default async function signupHandler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   try {
-    // Example: Create a new user
     const { name, email, password } = req.body;
-    console.log(req.body, "ppppp");
 
-    if (mongoose.connection.readyState === 1) {
-      console.log("Database connected");
-    } else {
-      console.log("Database not connected");
+    const match = await User.findOne({ email });
+    if (match) {
+      return res.status(409).send('User already exists');
     }
-  console.log("first")
+
+    const saltRounds = 10;
+    const hash = await bcrypt.hash(password, saltRounds);
+
     const newUser = new User({
       name,
       email,
-      password,
+      password: hash,
     });
 
     await newUser.save();
 
-    res.status(200).json({ message: "User created successfully" });
+    const token = jwt.sign({ userId: newUser._id }, secretKey, {
+      expiresIn: '1h',
+    });
+
+    res.setHeader('Set-Cookie', `token=${token}; HttpOnly`);
+
+    res.status(200).json({ message: 'User created successfully' ,token});
   } catch (error) {
-    // Handle errors
-    console.error("Error:", error);
-    res.status(500).json({ error: "An internal server error occurred" });
+    console.error('Error:', error);
+    res.status(500).json({ error: 'An internal server error occurred' });
   }
 }

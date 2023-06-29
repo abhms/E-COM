@@ -2,25 +2,39 @@ import { useState } from 'react';
 import 'tailwindcss/tailwind.css';
 import { Navbar } from '../../components/Navbar';
 import axios from 'axios';
-const Signup: React.FC = () => {
+import { useRouter } from 'next/router';
 
+const Signup: React.FC = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error,setError]=useState("");
+  const [error, setError] = useState('');
+  const router = useRouter();
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!name || !email || !password) {
-      console.log('All fields are required');
-      setError("all fields are required")
       return;
     }
-    const res =await axios.post("/api/register",{name,email,password}) 
-    console.log('Signup:', res);
-  };
 
+    try {
+      const res = await axios.post('/api/register', { name, email, password });
+
+      const token = res.data?.token;
+
+      if (token) {
+        localStorage.setItem('token', token);
+        
+        router.push('/auth/signin'); // Replace '/about' with the desired route
+      } else {
+        setError('An error occurred during signup');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      setError('An error occurred during signup');
+    }
+  };
   return (
     <>
       <Navbar />
