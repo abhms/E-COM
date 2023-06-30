@@ -1,32 +1,37 @@
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import 'tailwindcss/tailwind.css';
 import { Navbar } from '../../components/Navbar';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-
 const Signup: React.FC = () => {
-  const [name, setName] = useState('');
+  const [firstname, setFirstname] = useState('');
+  const [lastname, setLastname] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const router = useRouter();
-
+  useEffect(() => {
+    const localToken = localStorage.getItem('token');
+  if(localToken) {
+    router.push('/profile'); 
+  }   
+  });
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (!name || !email || !password) {
+    
+    if (!firstname || !email || !password) {
       return;
     }
 
     try {
-      const res = await axios.post('/api/register', { name, email, password });
+      const res = await axios.post('/api/register', { firstname, lastname,email, password });
 
       const token = res.data?.token;
 
       if (token) {
         localStorage.setItem('token', token);
         
-        router.push('/auth/signin'); // Replace '/about' with the desired route
+        router.push('/profile'); 
       } else {
         setError('An error occurred during signup');
       }
@@ -35,10 +40,11 @@ const Signup: React.FC = () => {
       setError('An error occurred during signup');
     }
   };
+
+  
   return (
     <>
       <Navbar />
-
       <div className="relative flex flex-col justify-center min-h-screen overflow-hidden">
         <div className="w-full p-6 m-auto bg-white rounded-md shadow-md lg:max-w-xl">
           <h1 className="text-2xl font-semibold text-center text-gray-700">
@@ -50,13 +56,27 @@ const Signup: React.FC = () => {
                 htmlFor="name"
                 className="block text-sm font-semibold text-gray-800"
               >
-                Name
+                FirstName
               </label>
               <input
                 type="text"
-                name="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                name="firstname"
+                value={firstname}
+                onChange={(e) => setFirstname(e.target.value)}
+                className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-md focus:border-gray-400 focus:ring-gray-300 focus:outline-none focus:ring focus:ring-opacity-40"
+              />
+            </div>
+            <div className="mb-2">
+              <label
+                htmlFor="name"
+                className="block text-sm font-semibold text-gray-800"
+              >LastName
+              </label>
+              <input
+                type="text"
+                name="lastname"
+                value={lastname}
+                onChange={(e) => setLastname(e.target.value)}
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-md focus:border-gray-400 focus:ring-gray-300 focus:outline-none focus:ring focus:ring-opacity-40"
               />
             </div>

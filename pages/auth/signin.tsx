@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { Navbar } from '../../components/Navbar';
 import 'tailwindcss/tailwind.css';
+import { useRouter } from 'next/router';
+
 async function signIn(email: string, password: string) {
   const response = await fetch('/api/signin', {
     method: 'POST',
@@ -13,19 +15,23 @@ async function signIn(email: string, password: string) {
   const data = await response.json();
 
   if (response.ok) {
-    // Sign-in successful
     const { token } = data;
   console.log(data,"tokenenen");
-    // Save the token to local storage
     localStorage.setItem('token', token);
   } else {
-    // Sign-in failed
     console.error(data.error);
   }
 }
 const signin: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const router = useRouter();
+  useEffect(() => {
+    const localToken = localStorage.getItem('token');
+  if(localToken) {
+    router.push('/profile'); 
+  }   
+  });
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();

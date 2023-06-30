@@ -3,14 +3,14 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import User from '../../models/User';
 
-const secretKey = 'your-secret-key'; // Replace with your secret key
+const secretKey = process.env.JWT_SECRET!; 
 
 export default async function signupHandler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   try {
-    const { name, email, password } = req.body;
+    const { firstname,lastname, email, password } = req.body;
 
     const match = await User.findOne({ email });
     if (match) {
@@ -21,19 +21,17 @@ export default async function signupHandler(
     const hash = await bcrypt.hash(password, saltRounds);
 
     const newUser = new User({
-      name,
+      firstname,
+      lastname,
       email,
       password: hash,
     });
 
     await newUser.save();
-
-    const token = jwt.sign({ userId: newUser._id }, secretKey, {
-      expiresIn: '1h',
+    const token = jwt.sign({  userId: newUser._id}, secretKey, {
+      expiresIn: '24h',
     });
-
-    res.setHeader('Set-Cookie', `token=${token}; HttpOnly`);
-
+   
     res.status(200).json({ message: 'User created successfully' ,token});
   } catch (error) {
     console.error('Error:', error);
