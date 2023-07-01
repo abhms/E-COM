@@ -1,4 +1,4 @@
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Navbar } from '../../components/Navbar';
 import 'tailwindcss/tailwind.css';
 import { useRouter } from 'next/router';
@@ -16,7 +16,6 @@ async function signIn(email: string, password: string) {
 
   if (response.ok) {
     const { token } = data;
-  console.log(data,"tokenenen");
     localStorage.setItem('token', token);
   } else {
     console.error(data.error);
@@ -28,9 +27,9 @@ const signin: React.FC = () => {
   const router = useRouter();
   useEffect(() => {
     const localToken = localStorage.getItem('token');
-  if(localToken) {
-    router.push('/profile'); 
-  }   
+    if (localToken) {
+      router.push('/profile');
+    }
   });
 
   const handleSignIn = async (e: React.FormEvent) => {
@@ -39,42 +38,51 @@ const signin: React.FC = () => {
   };
   return (
     <>
-    <Navbar/>
-    <div className="max-w-md mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Login</h1>
-      <form onSubmit={handleSignIn}>
-        <div className="mb-4">
-          <label htmlFor="email" className="block mb-2">
-            Email:
-          </label>
-          <input
-            type="email"
-            id="email"
-            className="w-full border border-gray-300 rounded px-3 py-2"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="password" className="block mb-2">
-            Password:
-          </label>
-          <input
-            type="password"
-            id="password"
-            className="w-full border border-gray-300 rounded px-3 py-2"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-        <button
-          type="submit"
-          className="bg-blue-500 text-white rounded px-4 py-2 hover:bg-blue-600"
-        >
-          Login
-        </button>
-      </form>
-    </div>
+      <Navbar />
+      <div className="max-w-md mx-auto">
+        <h1 className="text-2xl font-bold mb-4">Login</h1>
+        <form onSubmit={handleSignIn}>
+          <div className="mb-4">
+            <label htmlFor="email" className="block mb-2">
+              Email:
+            </label>
+            <input
+              type="email"
+              id="email"
+              className="w-full border border-gray-300 rounded px-3 py-2"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="password" className="block mb-2">
+              Password:
+            </label>
+            <input
+              type="password"
+              id="password"
+              className="w-full border border-gray-300 rounded px-3 py-2"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+          <button
+            type="submit"
+            className="bg-blue-500 text-white rounded px-4 py-2 hover:bg-blue-600"
+          >
+            Login
+          </button>
+        </form>
+        <p className="mt-2 text-xs text-center text-gray-700">
+          New to SHOPNOW ?{' '}
+          <a
+            href="/auth/signup"
+            className="font-medium text-gray-600 hover:underline"
+          >
+            Sign Up
+          </a>
+        </p>
+      </div>
     </>
   );
 };

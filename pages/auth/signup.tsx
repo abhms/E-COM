@@ -15,11 +15,12 @@ const Signup: React.FC = () => {
   if(localToken) {
     router.push('/profile'); 
   }   
-  });
+  },[]);
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!firstname || !email || !password) {
+      setError("all fields are required*")
       return;
     }
 
@@ -51,6 +52,9 @@ const Signup: React.FC = () => {
             Create an account
           </h1>
           <form className="mt-6" onSubmit={handleSignup}>
+          {error && error.length?<>
+        <h1 style={{color:"#e82617"}}>{error}</h1>
+        </>:null}
             <div className="mb-2">
               <label
                 htmlFor="name"
@@ -113,7 +117,6 @@ const Signup: React.FC = () => {
             <p className="text-xs text-gray-800 font-bold">
               Password must be at least 8 characters long
             </p>
-          {error && error.length?error:null}
             <div className="mt-6">
               <button
                 type="submit"

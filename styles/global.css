@@ -9,7 +9,17 @@
   .p-4 {
     padding: 1rem;
   }
-  
+  .sellerForm{
+    margin-left: 100px;
+    padding-left: 20px;
+  }
+
+  .navbarLogo{
+    padding-left: 10rem;
+  }
+  .sellerDrop{
+
+  }
   .container {
     width: 100%;
     margin-left: auto;

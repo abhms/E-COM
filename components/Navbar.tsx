@@ -26,7 +26,7 @@ export const Navbar = () => {
           }
         `}</style>
         <Link href="/">
-          <span className="text-xl font-bold cursor-pointer">Logo</span>
+          <span className="text-xl font-bold cursor-pointer navbarLogo">SHOPNOW</span>
         </Link>
         <ul className="flex space-x-4 list-none">
           {orginalToken && orginalToken.length > 0 ? (
@@ -48,8 +48,8 @@ export const Navbar = () => {
             </Link>
           </li>
           <li>
-            <Link href="/contact" className="text-white hover:text-gray-300" style={{ paddingLeft: 13, textDecoration: 'none' }}>
-              Contact
+            <Link href="/seller" className="text-white hover:text-gray-300" style={{ paddingLeft: 13, textDecoration: 'none' }}>
+              Become a Seller
             </Link>
           </li>
         </ul>
