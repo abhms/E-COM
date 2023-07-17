@@ -11,6 +11,7 @@ const Seller = () => {
   const [selectedProductType, setSelectedProductType] = useState('');
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
+  const[fileUrl,setFileUrl]=useState();
   const [error, setError] = useState('');
   const productTypes = [
     'Electronics',
@@ -18,7 +19,6 @@ const Seller = () => {
     'Home',
     'Books',
     'Beauty',
-    // Add more product types as needed
   ];
   var tok: string | null;
   useEffect(() => {
@@ -32,6 +32,7 @@ const Seller = () => {
   }, []);
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    
     const files = e.target.files;
     if (files) {
       setSelectedFiles(files);
@@ -45,17 +46,22 @@ const Seller = () => {
       return;
     }
 
-    const formData = new FormData();
-    Array.from(selectedFiles).forEach((file) => {
-      formData.append('files', file);
-    });
+  const formData1 = new FormData();
+   
+    for(var i=0;i<selectedFiles.length;i++){
+      formData1.append("file",selectedFiles[i])
+    }
 
-    formData.append('description', description);
-    formData.append('productname', productname);
-    formData.append('price', price);
-    formData.append('selectedProductType', selectedProductType);
-
-    const res = await axios.post('/api/seller/product', formData, {
+    formData1.append("upload_preset", "my-uploads")
+      const data = await fetch(`https://api.cloudinary.com/v1_1/dzzmcvmkr/image/upload`, {
+        method: "POST",
+        body: formData1,
+      }).then(res => res.json())
+  
+      console.log(data.secure_url, "datatatattatat");
+      setFileUrl(data.secure_url)
+   
+    const res = await axios.post('/api/seller/product', {productname,selectedProductType,price,description,fileUrl},{
       headers: {
         Authorization: `Bearer ${tok}`,
         'Content-Type': 'multipart/form-data',
@@ -123,7 +129,6 @@ const Seller = () => {
               <input
                 type="file"
                 id="fileInput"
-                multiple
                 onChange={handleFileChange}
                 className="hidden"
               />
