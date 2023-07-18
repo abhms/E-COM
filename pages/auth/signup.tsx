@@ -3,6 +3,8 @@ import 'tailwindcss/tailwind.css';
 import { Navbar } from '../../components/Navbar';
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import { toast } from "react-toastify";
+
 const Signup: React.FC = () => {
   const [firstname, setFirstname] = useState('');
   const [lastname, setLastname] = useState('');
@@ -26,6 +28,7 @@ const Signup: React.FC = () => {
 
     try {
       const res = await axios.post('/api/register', { firstname, lastname,email, password });
+      toast(res.data.message, { hideProgressBar: true, autoClose: 2000, type: 'success' })
 
       const token = res.data?.token;
 

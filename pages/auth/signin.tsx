@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Navbar } from '../../components/Navbar';
 import 'tailwindcss/tailwind.css';
 import { useRouter } from 'next/router';
+import { toast } from "react-toastify";
 
 async function signIn(email: string, password: string) {
   const response = await fetch('/api/signin', {
@@ -11,9 +12,10 @@ async function signIn(email: string, password: string) {
     },
     body: JSON.stringify({ email, password }),
   });
+  // toast(response?.data.message, { hideProgressBar: true, autoClose: 2000, type: 'success' })
 
   const data = await response.json();
-
+console.log(data,"data");
   if (response.ok) {
     const { token } = data;
     localStorage.setItem('token', token);

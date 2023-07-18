@@ -3,6 +3,7 @@ import 'tailwindcss/tailwind.css';
 import { Navbar } from '../../components/Navbar';
 import { useRouter } from 'next/router';
 import axios from 'axios';
+import { toast } from "react-toastify";
 
 const Seller = () => {
   const router = useRouter();
@@ -11,7 +12,6 @@ const Seller = () => {
   const [selectedProductType, setSelectedProductType] = useState('');
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
-  const[fileUrl,setFileUrl]=useState();
   const [error, setError] = useState('');
   const productTypes = [
     'Electronics',
@@ -23,7 +23,7 @@ const Seller = () => {
   var tok: string | null;
   useEffect(() => {
     const localToken = localStorage.getItem('token');
-    tok = localToken;
+    tok= localToken;
     if (!localToken) {
       alert('Please login to become a seller');
       router.push('/auth/signin');
@@ -46,28 +46,39 @@ const Seller = () => {
       return;
     }
 
-  const formData1 = new FormData();
-   
-    for(var i=0;i<selectedFiles.length;i++){
-      formData1.append("file",selectedFiles[i])
-    }
+    const formData1 = new FormData();
 
-    formData1.append("upload_preset", "my-uploads")
+    for (var i = 0; i < selectedFiles.length; i++) {
+      formData1.append("file", selectedFiles[i]);
+    }
+    
+    formData1.append("upload_preset", "my-uploads");
+    
+    const uploadImage = async () => {
       const data = await fetch(`https://api.cloudinary.com/v1_1/dzzmcvmkr/image/upload`, {
         method: "POST",
         body: formData1,
-      }).then(res => res.json())
-  
-      console.log(data.secure_url, "datatatattatat");
-      setFileUrl(data.secure_url)
-   
-    const res = await axios.post('/api/seller/product', {productname,selectedProductType,price,description,fileUrl},{
-      headers: {
-        Authorization: `Bearer ${tok}`,
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-
+      }).then((res) => res.json());
+    
+      return data.secure_url;
+    };
+    
+    const fileUrl = await uploadImage(); // Wait for the image to be uploaded and get the file URL
+    
+    console.log(fileUrl, "datatatattatat");
+    const token = localStorage.getItem('token');
+    const res = await axios.post(
+      '/api/seller/product',
+      { productname, selectedProductType, price, description, fileUrl },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    console.log(res,"esss");
+    toast(res.data.message, { hideProgressBar: true, autoClose: 2000, type: 'success' })
     console.log(res, 'resssss');
   };
 

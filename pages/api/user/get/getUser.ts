@@ -2,15 +2,16 @@ import jwt from 'jsonwebtoken';
 import { NextApiRequest, NextApiResponse } from 'next';
 import User from '../../../../models/User';
 
-const secretKey = process.env.JWT_SECRET!; 
 
 export default async function getUserHandler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   try {
-    const token = req.headers.authorization?.replace('Bearer ', '') || req.cookies.token;
+const secretKey = process.env.JWT_SECRET!; 
 
+    const token = req.headers.authorization?.replace('Bearer ', '') || req.cookies.token;
+console.log(token,"tokekek");
     if (!token) {
       return res.status(401).json({ error: 'Authorization token missing' });
     }
