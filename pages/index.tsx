@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Navbar } from "../components/Navbar";
 import axios from 'axios';
 import ProductList from '../components/Products';
+import Footer from '../components/Footer';
 const Home: React.FC = () => {
   const [products, setProducts] = useState([]);
 
@@ -22,10 +23,13 @@ const Home: React.FC = () => {
    console.log(products.product,"propooo");
   return (
     <>
+    <div>
       <Navbar />
       <div className="container mx-auto p-4">
       {/*@ts-ignore*/}
         <ProductList products={products.product} />
+      </div>
+      <Footer/>
       </div>
     </>
   );
