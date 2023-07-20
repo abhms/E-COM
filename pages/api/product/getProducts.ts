@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import Product from '../../models/Product';
+import Product from '../../../models/Product';
 
-export default async function getUserHandler(
+export default async function getProduct(
     req: NextApiRequest,
     res: NextApiResponse
   ) {

@@ -9,7 +9,7 @@ const Home: React.FC = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("/api/getProducts");
+        const response = await axios.get("/api/product/getProducts");
         setProducts(response.data);
       } catch (error) {
         console.error("Error fetching products:", error);

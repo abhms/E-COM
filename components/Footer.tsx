@@ -4,10 +4,10 @@ import { BsDribbble } from 'react-icons/bs';
 export default function FooterWithSocialMediaIcons() {
   return (
     <Footer bgDark>
-      <div className="w-full">
+      <div className="w-full" style={{color: "#fff"}}>
         <div className="grid w-full grid-cols-2 gap-8 px-6 py-8 md:grid-cols-4">
-          <div>
-            <Footer.Title title="Company" />
+          <div >
+            <Footer.Title title="Company"/>
             <Footer.LinkGroup col>
               <Footer.Link href="#">
                 About
