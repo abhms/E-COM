@@ -17,9 +17,6 @@
   .navbarLogo{
     padding-left: 10rem;
   }
-  .sellerDrop{
-
-  }
   .container {
     width: 100%;
     margin-left: auto;
@@ -63,6 +60,8 @@
     width: 101%;
     height: 370px;
   }
-  .cartbtn{
-    /* row-gap: 20px; */
-  }
+
+  .purchase {
+    position: absolute;
+    right: 120px;
+}

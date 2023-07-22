@@ -1,6 +1,5 @@
 import { Footer } from 'flowbite-react';
-import { BsFacebook, BsGithub, BsInstagram, BsTwitter } from 'react-icons/bs';
-import { BsDribbble } from 'react-icons/bs';
+import { BsFacebook, BsGithub, BsInstagram, BsTwitter ,BsLinkedin,BsFillCartCheckFill} from 'react-icons/bs';
 export default function FooterWithSocialMediaIcons() {
   return (
     <Footer bgDark>
@@ -92,12 +91,12 @@ export default function FooterWithSocialMediaIcons() {
               icon={BsTwitter}
             />
             <Footer.Icon
-              href="#"
+              href="https://github.com/abhms"
               icon={BsGithub}
             />
             <Footer.Icon
-              href="#"
-              icon={BsDribbble}
+              href="https://www.linkedin.com/in/abhishek-mishra-8801a21b4/"
+              icon={BsLinkedin}
             />
           </div>
         </div>
