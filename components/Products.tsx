@@ -62,7 +62,7 @@ const ProductList: React.FC<ProductListProps> = ({ products }) => {
         </div>
       ) : (
         // Display products when loading is false
-        products.map((product) => (
+      products && products.map((product) => (
           <div key={product.id} className="bg-white shadow-md rounded-lg p-4">
             <div className="cartImg">
               {/* @ts-ignore */}

@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import 'tailwindcss/tailwind.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
 
 export const Navbar = () => {
   const [orginalToken, setOrginalToken] = useState<string | null>(null);
@@ -40,7 +43,7 @@ export const Navbar = () => {
             {orginalToken && orginalToken.length > 0 ? (
               <li>
                 <Link href="/profile" className="text-white hover:text-gray-300" style={{ paddingLeft: 13, textDecoration: 'none' }}>
-                  Profile
+                <FontAwesomeIcon icon={faUser} /> Profile
                 </Link>
               </li>
             ) : (
@@ -51,9 +54,12 @@ export const Navbar = () => {
               </li>
             )}
             <li>
-              <Link href="/cart" className="text-white hover:text-gray-300" style={{ paddingLeft: 13, textDecoration: 'none' }}>
-                Cart
-              </Link>
+              <div>
+                <p>
+              <a href="/profile/cart" className="text-white hover:text-gray-300" style={{ paddingLeft: 13, textDecoration: 'none' }}>
+              <FontAwesomeIcon icon={faCartShopping} /> Cart
+              </a></p>
+              </div>
             </li>
             <li>
               <Link href="/seller" className="text-white hover:text-gray-300" style={{ paddingLeft: 13, textDecoration: 'none' }}>
