@@ -31,7 +31,7 @@ export default async function handler(
 
     await newProduct.save();
     res.status(200).json({ message: 'Product added sucessfully' });
-    // });
+   
   } catch (error) {
     res.status(500).json({ error: 'An internal server error occurred' });
   }

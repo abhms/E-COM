@@ -3,25 +3,42 @@ import { useRouter } from 'next/router'
 import { Navbar } from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import axios from "axios";
+
 const Cart = () => {
     const [products, setProducts] = useState([]);
-    const router = useRouter()
+    const [token, setOriginalToken] = useState<string | null>(null);
+    const router = useRouter();
+    
     useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                const response = await axios.get("/api/product/getProducts");
-                setProducts(response.data.product);
-                console.log(response.data.product);
-            } catch (error) {
-                console.error("Error fetching products:", error);
-            }
-        };
-
-        fetchProducts();
+        // Retrieve the token from localStorage and set it in the state.
+        const tok = localStorage.getItem('token');
+        setOriginalToken(tok);
     }, []);
 
+    useEffect(() => {
+        // Proceed with the API call only if the token is available.
+        if (token) {
+            const fetchProducts = async () => {
+                try {
+                    const response = await axios.get("/api/product/addCart", {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            'Content-Type': 'application/json',
+                        },
+                    });
+                    setProducts(response.data.product);
+                    console.log(response.data.product);
+                } catch (error) {
+                    console.error("Error fetching products:", error);
+                }
+            };
+
+            fetchProducts();
+        }
+    }, [token]);
+
     //@ts-ignore
-    console.log(products.product, "propooo");
+    // console.log(products.product, "propooo");
     return (
         <>
             <Navbar />
