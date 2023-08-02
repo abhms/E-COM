@@ -1,67 +1,101 @@
 .bg-gray-800 {
-    background-color: #5c5e60;
-  }
-  
-  .text-white {
-    color: #121212;
-  }
-  
-  .p-4 {
-    padding: 1rem;
-  }
-  .sellerForm{
-    margin-left: 100px;
-    padding-left: 20px;
-  }
+  background-color: #5c5e60;
+}
 
-  .navbarLogo{
-    padding-left: 10rem;
-  }
-  .container {
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  
-  .mx-auto {
-    margin-left: auto;
-    margin-right: auto;
-  }
-  
-  .flex {
-    display: flex;
-  }
-  
-  .items-center {
-    align-items: center;
-  }
-  
-  .justify-between {
-    justify-content: space-between;
-  }
-  
-  .text-xl {
-    font-size: 1.25rem;
-  }
-  
-  .font-bold {
-    font-weight: bold;
-  }
-  
-  .space-x-4 > * + * {
-    margin-left: 1rem;
-  }
-  
-  .text-white:hover {
-    color: #d1d5db;
-  }
-  
-  .cartImg{
-    width: 101%;
-    height: 370px;
-  }
+.text-white {
+  color: #121212;
+}
 
-  .purchase {
-    position: absolute;
-    right: 120px;
+.p-4 {
+  padding: 1rem;
+}
+
+.sellerForm {
+  margin-left: 100px;
+  padding-left: 20px;
+}
+
+.navbarLogo {
+  padding-left: 10rem;
+}
+
+.container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.flex {
+  display: flex;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.text-xl {
+  font-size: 1.25rem;
+}
+
+.font-bold {
+  font-weight: bold;
+}
+
+.space-x-4>*+* {
+  margin-left: 1rem;
+}
+
+.text-white:hover {
+  color: #d1d5db;
+}
+
+.cartImg {
+  width: 101%;
+  height: 370px;
+}
+
+.purchase {
+  position: absolute;
+  right: 120px;
+}
+
+
+
+
+/* Add these styles to your CSS file (e.g., Home.css) */
+.home-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.content-container {
+  flex: 1;
+  padding: 20px;
+}
+
+footer {
+
+  padding-top: 14px;
+  margin-top: 55px;
+  width: 100%;
+  bottom: 100% !important
+}
+
+.purchase {
+  margin: auto, auto, auto, auto
+}
+.cardproduct{
+  margin-right: 100px;
+  margin-top: 200px;
+  padding-right: 10px;
 }

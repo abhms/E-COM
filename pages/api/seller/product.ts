@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import Product from '../../../models/Product';
 import jwt from 'jsonwebtoken';
 import User from '../../../models/User';
+import Seller from '../../seller';
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -28,7 +29,9 @@ export default async function handler(
       sellerId:user?._id,
       productname, selectedProductType, price, description, fileUrl,
     });
-
+    const sellerUser =await User.findOneAndUpdate({_id:user?._id},{
+      seller:true
+    })
     await newProduct.save();
     res.status(200).json({ message: 'Product added sucessfully' });
    

@@ -8,7 +8,7 @@ const Cart = () => {
     const [products, setProducts] = useState([]);
     const [token, setOriginalToken] = useState<string | null>(null);
     const router = useRouter();
-    
+
     useEffect(() => {
         // Retrieve the token from localStorage and set it in the state.
         const tok = localStorage.getItem('token');
@@ -26,8 +26,7 @@ const Cart = () => {
                             'Content-Type': 'application/json',
                         },
                     });
-                    setProducts(response.data.product);
-                    console.log(response.data.product);
+                    setProducts(response.data.products);
                 } catch (error) {
                     console.error("Error fetching products:", error);
                 }
@@ -38,14 +37,14 @@ const Cart = () => {
     }, [token]);
 
     //@ts-ignore
-    // console.log(products.product, "propooo");
+    console.log(products, "propooo");
     return (
         <>
             <Navbar />
             <div className="flex flex-col max-w-3xl p-6 space-y-4 sm:p-10 dark:bg-gray-900 dark:text-gray-100">
                 <h2 className="text-xl font-semibold">
                     Your cart</h2>
-                <div className="purchase">
+                {products.length>0 && <div className="purchase">
                     <div className="space-y-1 text-right">
                         <p>Total amount:
                             <span className="font-semibold">357 €</span>
@@ -57,13 +56,15 @@ const Cart = () => {
                             <span className="sr-only sm:not-sr-only">to shop</span>
                         </button>
                         <button type="button" className="px-6 py-2 border rounded-md dark:bg-violet-400 dark:text-gray-900 dark:border-violet-400">
-                            <span className="sr-only sm:not-sr-only">Continue to</span>Checkout
+                            {/* <span className="sr-only sm:not-sr-only">Continue to</span>Checkout
+                             */}
+                            Continue to Checkout
                         </button>
                     </div>
 
-                </div>
+                </div>}
                 {products && products.map((product) => (<>
-                    <ul className="flex flex-col divide-y divide-gray-700">
+                    <ul className="flex flex-col divide-y divide-gray-700 cardproduct">
                         <li className="flex flex-col py-6 sm:flex-row sm:justify-between">
                             <div className="flex w-full space-x-2 sm:space-x-4">
                                 {/**@ts-ignore */}
@@ -75,6 +76,7 @@ const Cart = () => {
                                             <h3 className="text-lg font-semibold leadi sm:pr-8">{product.productname}</h3>
                                             {/**@ts-ignore */}
                                             <p className="text-sm dark:text-gray-400">{product.selectedProductType}</p>
+                                            
                                         </div>
                                         <div className="text-right">
                                             {/**@ts-ignore */}
@@ -104,10 +106,16 @@ const Cart = () => {
                         </li>
                     </ul>
                 </>))}
+                {products.length===0&& <>
+                <h3>You have not added any producct in cart</h3>
+                </>
+                }
             </div>
-
-
-            <Footer />
+            <div style={{ minHeight: "calc(100vh - 60px)", display: "flex", flexDirection: "column" }}>
+                <div className="cartfooter" style={{ marginTop: "auto" }}>
+                    <Footer />
+                </div>
+            </div>
         </>
     )
 }

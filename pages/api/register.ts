@@ -25,6 +25,7 @@ export default async function signupHandler(
       lastname,
       email,
       password: hash,
+      seller:false
     });
 
     await newUser.save();

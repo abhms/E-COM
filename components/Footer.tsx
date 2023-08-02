@@ -5,7 +5,7 @@ export default function FooterWithSocialMediaIcons() {
     <Footer bgDark>
       <div className="w-full" style={{color: "#fff"}}>
         <div className="grid w-full grid-cols-2 gap-8 px-6 py-8 md:grid-cols-4">
-          <div >
+          <div className='' >
             <Footer.Title title="Company"/>
             <Footer.LinkGroup col>
               <Footer.Link href="#">

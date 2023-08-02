@@ -23,13 +23,17 @@ const Home: React.FC = () => {
    console.log(products.product,"propooo");
   return (
     <>
-    <div>
-      <Navbar />
-      <div className="container mx-auto p-4">
-      {/*@ts-ignore*/}
-        <ProductList products={products.product} />
-      </div>
-      <Footer/>
+     <div className="home-container">
+        <Navbar />
+        <div className="content-container">
+          {/*@ts-ignore */}
+          <ProductList products={products.product} />
+        </div>
+        <div style={{ minHeight: "calc(100vh - 60px)", display: "flex", flexDirection: "column" }}>
+            <div className="cartfooter" style={{ marginTop: "auto" }}>
+                <Footer />
+            </div>
+            </div>
       </div>
     </>
   );
