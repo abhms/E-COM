@@ -1,4 +1,4 @@
-import { useState,useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import 'tailwindcss/tailwind.css';
 import { Navbar } from '../../components/Navbar';
 import axios from 'axios';
@@ -6,36 +6,46 @@ import { useRouter } from 'next/router';
 import { toast } from "react-toastify";
 
 const Signup: React.FC = () => {
-  const [firstname, setFirstname] = useState('');
-  const [lastname, setLastname] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [allData, setAllData] = useState({
+    firstname: "",
+    lastname: "",
+    email: "",
+    password: "",
+  })
   const [error, setError] = useState('');
   const router = useRouter();
   useEffect(() => {
     const localToken = localStorage.getItem('token');
-  if(localToken) {
-    router.push('/profile'); 
-  }   
-  },[]);
+    if (localToken) {
+      router.push('/profile');
+    }
+  }, []);
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setAllData({ ...allData, [name]: value });
+  };
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!firstname || !email || !password) {
+
+    if (!allData.firstname || !allData.email || !allData.password) {
       setError("all fields are required*")
       return;
     }
 
     try {
-      const res = await axios.post('/api/register', { firstname, lastname,email, password });
+      const { firstname,
+        lastname,
+        email,
+        password } = allData
+      const res = await axios.post('/api/register', { firstname, lastname, email, password });
       toast(res.data.message, { hideProgressBar: true, autoClose: 2000, type: 'success' })
 
       const token = res.data?.token;
 
       if (token) {
         localStorage.setItem('token', token);
-        
-        router.push('/profile'); 
+
+        router.push('/profile');
       } else {
         setError('An error occurred during signup');
       }
@@ -45,7 +55,7 @@ const Signup: React.FC = () => {
     }
   };
 
-  
+
   return (
     <>
       <Navbar />
@@ -55,9 +65,9 @@ const Signup: React.FC = () => {
             Create an account
           </h1>
           <form className="mt-6" onSubmit={handleSignup}>
-          {error && error.length?<>
-        <h1 style={{color:"#e82617"}}>{error}</h1>
-        </>:null}
+            {error && error.length ? <>
+              <h1 style={{ color: "#e82617" }}>{error}</h1>
+            </> : null}
             <div className="mb-2">
               <label
                 htmlFor="name"
@@ -68,8 +78,8 @@ const Signup: React.FC = () => {
               <input
                 type="text"
                 name="firstname"
-                value={firstname}
-                onChange={(e) => setFirstname(e.target.value)}
+                value={allData.firstname}
+                onChange={handleChange}
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-md focus:border-gray-400 focus:ring-gray-300 focus:outline-none focus:ring focus:ring-opacity-40"
               />
             </div>
@@ -82,8 +92,8 @@ const Signup: React.FC = () => {
               <input
                 type="text"
                 name="lastname"
-                value={lastname}
-                onChange={(e) => setLastname(e.target.value)}
+                value={allData.lastname}
+                onChange={handleChange}
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-md focus:border-gray-400 focus:ring-gray-300 focus:outline-none focus:ring focus:ring-opacity-40"
               />
             </div>
@@ -97,8 +107,8 @@ const Signup: React.FC = () => {
               <input
                 type="email"
                 name="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={allData.email}
+                onChange={handleChange}
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-md focus:border-gray-400 focus:ring-gray-300 focus:outline-none focus:ring focus:ring-opacity-40"
               />
             </div>
@@ -112,8 +122,8 @@ const Signup: React.FC = () => {
               <input
                 name="password"
                 type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={allData.password}
+                onChange={handleChange}
                 className="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border rounded-md focus:border-gray-400 focus:ring-gray-300 focus:outline-none focus:ring focus:ring-opacity-40"
               />
             </div>
