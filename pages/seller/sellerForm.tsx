@@ -3,6 +3,7 @@ import 'tailwindcss/tailwind.css';
 import { Navbar } from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 const SellerForm: React.FC = () => {
   const [formData, setFormData] = useState({
     mobileNo: '',
@@ -43,7 +44,7 @@ const SellerForm: React.FC = () => {
         },
       }
     );
-
+    toast(res.data.message, { hideProgressBar: true, autoClose: 2000, type: 'success' })
     console.log(formData);
     // Add any further processing or API calls here
   };
