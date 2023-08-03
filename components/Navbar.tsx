@@ -62,7 +62,7 @@ export const Navbar = () => {
               </div>
             </li>
             <li>
-              <Link href="/seller" className="text-white hover:text-gray-300" style={{ paddingLeft: 13, textDecoration: 'none' }}>
+              <Link href="/seller/sellerForm" className="text-white hover:text-gray-300" style={{ paddingLeft: 13, textDecoration: 'none' }}>
                 Become a Seller
               </Link>
             </li>
