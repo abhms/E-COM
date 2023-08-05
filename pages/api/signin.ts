@@ -28,8 +28,7 @@ export default async function handler(
     });
 
     console.log(token,"tototoo");
-    res.status(200).json({ token });
-    res.status(200).json({sucess:"All good"})
+    res.status(200).json({ message: 'You are now login' ,token});
   } catch (error) {
     console.error('Error:', error);
     res.status(500).json({ error: 'An internal server error occurred' });

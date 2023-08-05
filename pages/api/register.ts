@@ -14,7 +14,7 @@ export default async function signupHandler(
 
     const match = await User.findOne({ email });
     if (match) {
-      return res.status(409).send('User already exists');
+      return res.status(409).json({message:'User already exists'});
     }
 
     const saltRounds = 10;

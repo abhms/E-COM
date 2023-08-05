@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import 'tailwindcss/tailwind.css';
 import { Navbar } from '../../components/Navbar';
 import Footer from '../../components/Footer';
+import { useRouter } from 'next/router';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 const SellerForm: React.FC = () => {
@@ -15,7 +16,7 @@ const SellerForm: React.FC = () => {
     aadharNo:''
   });
   const [token, setOriginalToken] = useState<string | null>(null);
-
+  const router = useRouter();
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -46,7 +47,7 @@ const SellerForm: React.FC = () => {
     );
     toast(res.data.message, { hideProgressBar: true, autoClose: 2000, type: 'success' })
     console.log(formData);
-    // Add any further processing or API calls here
+    router.push("/seller")
   };
 
   return (

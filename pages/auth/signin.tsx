@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Navbar } from '../../components/Navbar';
 import 'tailwindcss/tailwind.css';
 import { useRouter } from 'next/router';
-import { toast } from "react-toastify";
+import { toast } from 'react-toastify';
 
 async function signIn(email: string, password: string) {
   const response = await fetch('/api/signin', {
@@ -12,32 +12,39 @@ async function signIn(email: string, password: string) {
     },
     body: JSON.stringify({ email, password }),
   });
-  // toast(response?.data.message, { hideProgressBar: true, autoClose: 2000, type: 'success' })
-
   const data = await response.json();
-console.log(data,"data");
+  console.log(data, 'data');
+  toast(data.message, { hideProgressBar: true, autoClose: 2000, type: 'success' });
   if (response.ok) {
     const { token } = data;
     localStorage.setItem('token', token);
+    return true; 
   } else {
     console.error(data.error);
+    toast(data.error, { hideProgressBar: true, autoClose: 2000, type: 'error' });
+    return false; 
   }
 }
+
 const signin: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter();
+
   useEffect(() => {
     const localToken = localStorage.getItem('token');
     if (localToken) {
-      router.push('/profile');
+      router.push('/'); 
     }
-  });
+  }, [router]);
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
-    await signIn(email, password);
-  };
+    const success = await signIn(email, password);
+    if (success) {
+      router.push('/'); 
+    }
+  }
   return (
     <>
       <Navbar />

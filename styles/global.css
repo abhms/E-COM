@@ -99,3 +99,13 @@ footer {
   margin-top: 200px;
   padding-right: 10px;
 }
+.sidebar{
+  position: absolute;
+  top: 64px !important;
+  height: 579px;
+}
+
+.sidebardashboard{
+  position: relative;
+  bottom: -518px !important;
+}

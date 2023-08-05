@@ -2,17 +2,36 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import 'tailwindcss/tailwind.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
+import { faCartShopping, faDolly, faList } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
 
 export const Navbar = () => {
   const [orginalToken, setOrginalToken] = useState<string | null>(null);
-
+  const [seller, setseller] = useState(false)
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const token = localStorage.getItem('token');
-      setOrginalToken(token);
-    }
+    const fetchData = async () => {
+      if (typeof window !== 'undefined') {
+        const token = localStorage.getItem('token');
+        setOrginalToken(token);
+
+        if (token) {
+          try {
+            const response = await axios.get('/api/user/get/getUser', {
+              headers: {
+                Authorization: `Bearer ${token}`
+              }
+            });
+            setseller(response.data.user.seller)
+            console.log(response.data.user.seller, "response");
+          } catch (error) {
+            console.error('Error fetching user data:', error);
+          }
+        }
+      }
+    };
+
+    fetchData();
   }, []);
 
   return (
@@ -43,7 +62,7 @@ export const Navbar = () => {
             {orginalToken && orginalToken.length > 0 ? (
               <li>
                 <Link href="/profile" className="text-white hover:text-gray-300" style={{ paddingLeft: 13, textDecoration: 'none' }}>
-                <FontAwesomeIcon icon={faUser} /> Profile
+                  <FontAwesomeIcon icon={faUser} /> Profile
                 </Link>
               </li>
             ) : (
@@ -56,15 +75,21 @@ export const Navbar = () => {
             <li>
               <div>
                 <p>
-              <a href="/profile/cart" className="text-white hover:text-gray-300" style={{ paddingLeft: 13, textDecoration: 'none' }}>
-              <FontAwesomeIcon icon={faCartShopping} /> Cart
-              </a></p>
+                  {!seller ? <a href="/profile/cart" className="text-white hover:text-gray-300" style={{ paddingLeft: 13, textDecoration: 'none' }}>
+                    <FontAwesomeIcon icon={faCartShopping} /> Cart
+                  </a> : <a href="/seller/dashboard" className="text-white hover:text-gray-300" style={{ paddingLeft: 13, textDecoration: 'none' }}>
+                  <FontAwesomeIcon icon={faList} /> Dashboard
+                  </a>}
+                </p>
               </div>
             </li>
             <li>
-              <Link href="/seller/sellerForm" className="text-white hover:text-gray-300" style={{ paddingLeft: 13, textDecoration: 'none' }}>
+              {!seller ?<Link href="/seller/sellerForm" className="text-white hover:text-gray-300" style={{ paddingLeft: 13, textDecoration: 'none' }}>
                 Become a Seller
-              </Link>
+              </Link>:<a href="/seller" className="text-white hover:text-gray-300" style={{ paddingLeft: 13, textDecoration: 'none' }}>
+              <FontAwesomeIcon icon={faDolly} /> Add product
+              </a>
+              }
             </li>
           </ul>
         </div>
