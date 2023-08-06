@@ -101,10 +101,17 @@ footer {
 }
 .sidebar{
   position: absolute;
+  background-color: transparent;
   top: 64px !important;
+  margin-left: 20px;
   height: 579px;
+  width: 280px;
+  padding: 20px;
 }
-
+.sidebarIcon{
+  width: 280px !important;
+  padding: 20px !important;
+}
 .sidebardashboard{
   position: relative;
   bottom: -518px !important;
