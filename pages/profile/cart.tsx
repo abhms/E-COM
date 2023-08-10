@@ -3,51 +3,65 @@ import { useRouter } from 'next/router'
 import { Navbar } from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setMatchedTenants } from "../../redux/slices/order"; // Import the action
+import { store } from "../../redux/store"; // Import the Redux store
 
 const Cart = () => {
-    const [products, setProducts] = useState([]);
-    const [token, setOriginalToken] = useState<string | null>(null);
-    const router = useRouter();
+  const [products, setProducts] = useState([]);
+  const [token, setOriginalToken] = useState<string | null>(null);
+  const router = useRouter();
+  const dispatch = useDispatch();
+  
+  useEffect(() => {
+    const tok = localStorage.getItem('token');
+    setOriginalToken(tok);
+  }, []);
 
-    useEffect(() => {
-        // Retrieve the token from localStorage and set it in the state.
-        const tok = localStorage.getItem('token');
-        setOriginalToken(tok);
-    }, []);
-
-    useEffect(() => {
-        // Proceed with the API call only if the token is available.
-        if (token) {
-            const fetchProducts = async () => {
-                try {
-                    const response = await axios.get("/api/product/addCart", {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                            'Content-Type': 'application/json',
-                        },
-                    });
-                    setProducts(response.data.products);
-                } catch (error) {
-                    console.error("Error fetching products:", error);
-                }
-            };
-
-            fetchProducts();
+  useEffect(() => {
+    if (token) {
+      const fetchProducts = async () => {
+        try {
+          const response = await axios.get("/api/product/addCart", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          });
+          setProducts(response.data.products);
+        } catch (error) {
+          console.error("Error fetching products:", error);
         }
-    }, [token]);
+      };
 
+      fetchProducts();
+    }
+  }, [token]);
+
+  var price=0;
+  for (var i = 0; i < products.length; i++) {
     //@ts-ignore
-    console.log(products, "propooo");
+    price += products[i].price;
+  }
+
+  console.log(price, "price");
+
+  const setData = () => {
+    store.dispatch(setMatchedTenants({ products })); // Dispatch the action with products
+    console.log(products);
+    router.push('/profile/order');
+  }
+ 
     return (
         <>
             <Navbar />
             <div className="flex flex-col max-w-3xl p-6 space-y-4 sm:p-10 dark:bg-gray-900 dark:text-gray-100">
                 <h2 className="text-xl font-semibold">
                     Your cart</h2>
-                {products.length>0 && <div className="purchase">
+                {products.length > 0 && <div className="purchase">
                     <div className="space-y-1 text-right">
                         <p>Total amount:
-                            <span className="font-semibold">357 €</span>
+                            <span className="font-semibold">{price}</span>
                         </p>
                         <p className="text-sm dark:text-gray-400">Not including taxes and shipping costs</p>
                     </div>
@@ -55,7 +69,7 @@ const Cart = () => {
                         <button type="button" className="px-6 py-2 border rounded-md dark:border-violet-400" onClick={() => router.push('/')}>Back
                             <span className="sr-only sm:not-sr-only">to shop</span>
                         </button>
-                        <button type="button" className="px-6 py-2 border rounded-md dark:bg-violet-400 dark:text-gray-900 dark:border-violet-400">
+                        <button type="button" className="px-6 py-2 border rounded-md dark:bg-violet-400 dark:text-gray-900 dark:border-violet-400" onClick={() => setData()}>
                             {/* <span className="sr-only sm:not-sr-only">Continue to</span>Checkout
                              */}
                             Continue to Checkout
@@ -76,7 +90,7 @@ const Cart = () => {
                                             <h3 className="text-lg font-semibold leadi sm:pr-8">{product.productname}</h3>
                                             {/**@ts-ignore */}
                                             <p className="text-sm dark:text-gray-400">{product.selectedProductType}</p>
-                                            
+
                                         </div>
                                         <div className="text-right">
                                             {/**@ts-ignore */}
@@ -106,8 +120,8 @@ const Cart = () => {
                         </li>
                     </ul>
                 </>))}
-                {products.length===0&& <>
-                <h3>You have not added any producct in cart</h3>
+                {products.length === 0 && <>
+                    <h3>You have not added any producct in cart</h3>
                 </>
                 }
             </div>
@@ -116,6 +130,7 @@ const Cart = () => {
                     <Footer />
                 </div>
             </div>
+                        
         </>
     )
 }
