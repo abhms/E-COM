@@ -116,3 +116,7 @@ footer {
   position: relative;
   bottom: -518px !important;
 }
+.address_cash{
+  position: relative;
+  right: -70px;
+}

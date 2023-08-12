@@ -4,8 +4,8 @@ import { Navbar } from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { setMatchedTenants } from "../../redux/slices/order"; // Import the action
-import { store } from "../../redux/store"; // Import the Redux store
+import { setMatchedTenants } from "../../redux/slices/order"; 
+import { store } from "../../redux/store"; 
 
 const Cart = () => {
   const [products, setProducts] = useState([]);
@@ -47,7 +47,7 @@ const Cart = () => {
   console.log(price, "price");
 
   const setData = () => {
-    store.dispatch(setMatchedTenants({ products })); // Dispatch the action with products
+    store.dispatch(setMatchedTenants({ products }));
     console.log(products);
     router.push('/profile/order');
   }

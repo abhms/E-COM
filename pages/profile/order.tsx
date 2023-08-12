@@ -4,7 +4,10 @@ import { Navbar } from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from "react-redux";
-import axios from 'axios';
+import { setAddress } from "../../redux/slices/order";
+import { store } from "../../redux/store";
+import { toast } from 'react-toastify';
+
 const order = () => {
     const data = useSelector((state: any) => state.order.allData);
     const [formData, setFormData] = useState({
@@ -15,9 +18,10 @@ const order = () => {
         city: '',
         state: ''
     });
+    const [error, setError] = useState('');
     const [token, setOriginalToken] = useState<string | null>(null);
     const router = useRouter();
-    console.log(data,"formData");
+    console.log(data, "formData");
     useEffect(() => {
         if (typeof window !== 'undefined') {
             const tok = localStorage.getItem('token');
@@ -31,22 +35,22 @@ const order = () => {
     };
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        const aa = await axios.post("/api/product/buy", { formData }, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-                'Content-Type': 'application/json',
-            },
-        })
-        console.log("object", aa);
+        if (!formData.name || !formData.mobileNo || !formData.address || !formData.name || !formData.pincode || !formData.city || !formData.state) {
+            setError("all fields are required*")
+            return;
+        }
+        store.dispatch(setAddress({ formData }));
+        router.push('/profile/payment');
+        toast("Address saved", { hideProgressBar: true, autoClose: 2000, type: 'success' });
     }
     return (
         <div>
             <Navbar />
 
-            <h1>Personal information</h1>
             <form
                 onSubmit={handleSubmit}
                 className="max-w-lg mx-auto p-4 bg-gray-100 rounded-lg">
+                <h1>Personal information</h1>
                 <div className="mb-4">
                     <label htmlFor="name">Name</label>
                     <input
@@ -120,10 +124,13 @@ const order = () => {
 
 
                 <div>
-                    <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded">
+                    <button type="submit" className="bg-blue-500 text-white py-2 px-8 rounded">
                         Buy
                     </button>
                 </div>
+                {error && error.length ? <>
+                    <h1 style={{ color: "#e82617" }}>{error}</h1>
+                </> : null}
             </form>
             <div style={{ minHeight: "calc(100vh - 60px)", display: "flex", flexDirection: "column" }}>
                 <div className="cartfooter" style={{ marginTop: "auto" }}>
