@@ -3,16 +3,15 @@ import React, { useEffect, useState } from 'react';
 import 'tailwindcss/tailwind.css';
 import { Navbar } from '../../components/Navbar';
 import Footer from '../../components/Footer';
+import { setUsers } from "../../redux/slices/order";
+import { store } from "../../redux/store";
+import { useSelector } from 'react-redux';
 
-interface User {
-  firstname: string;
-  lastname: string;
-  email: string;
-}
 
 const Profile = () => {
-  const [user, setUser] = useState<User | null>(null);
+  const {users } = useSelector((state: any) => state.order);
   const [product,setProduct]=useState([])
+  const [seller, setseller] = useState(false)
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -23,13 +22,7 @@ const Profile = () => {
           return;
         }
 
-        const response = await axios.get('/api/user/get/getUser', {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
-        setUser(response.data.user);
-
+        setseller(users.seller)
         const getProduct =await axios.get("/api/user/get/getOrder",{
           headers:{
             Authorization:`Bearer ${token}`
@@ -50,19 +43,19 @@ const Profile = () => {
       <div className="max-w-md mx-auto bg-white shadow-md rounded-md p-6  my-2">
         <h1 className="text-2xl font-semibold mb-4">My Profile</h1>
         <div className="mb-4">
-          <label className="text-gray-700 font-bold">First Name: {user?.firstname}</label>
+          <label className="text-gray-700 font-bold">First Name: {users?.firstname}</label>
           <div className="mt-1"></div>
         </div>
         <div className="mb-4">
-          <label className="text-gray-700 font-bold">Last Name: {user?.lastname}</label>
+          <label className="text-gray-700 font-bold">Last Name: {users?.lastname}</label>
           <div className="mt-1"></div>
         </div>
         <div className="mb-4">
-          <label className="text-gray-700 font-bold">Email: {user?.email}</label>
+          <label className="text-gray-700 font-bold">Email: {users?.email}</label>
           <div className="mt-1"></div>
         </div>
       </div>
-      <div className="max-w-md mx-auto bg-white shadow-md rounded-md p-6 my-2">
+      {!seller && <div className="max-w-md mx-auto bg-white shadow-md rounded-md p-6 my-2">
         <h1 className="text-2xl font-semibold mb-4">All orders from anytime</h1>
         {product.map((order, index) => (
           <div key={index} className="mb-4">
@@ -79,7 +72,8 @@ const Profile = () => {
             ))}
           </div>
         ))}
-      </div>
+      </div>}
+      
       <div style={{ minHeight: "calc(100vh - 60px)", display: "flex", flexDirection: "column" }}>
                 <div className="cartfooter" style={{ marginTop: "auto" }}>
                     <Footer/>

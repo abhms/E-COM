@@ -9,7 +9,7 @@ import { store } from "../../redux/store";
 import { toast } from 'react-toastify';
 
 const order = () => {
-    const data = useSelector((state: any) => state.order.allData);
+    const {allData} = useSelector((state: any) => state.order);
     const [formData, setFormData] = useState({
         mobileNo: '',
         address: '',
@@ -21,7 +21,10 @@ const order = () => {
     const [error, setError] = useState('');
     const [token, setOriginalToken] = useState<string | null>(null);
     const router = useRouter();
-    console.log(data, "formData");
+    console.log(allData, "formData");
+    if(!allData){
+        router.push("/")
+    }
     useEffect(() => {
         if (typeof window !== 'undefined') {
             const tok = localStorage.getItem('token');

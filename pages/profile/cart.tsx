@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { Navbar } from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setMatchedTenants } from "../../redux/slices/order"; 
 import { store } from "../../redux/store"; 
 

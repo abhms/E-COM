@@ -6,8 +6,9 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FaHeart, FaGooglePay,FaHome, FaSearch } from 'react-icons/fa';
 import { faCreditCard, faIndianRupeeSign, faBuildingColumns } from '@fortawesome/free-solid-svg-icons';
-import Cart from '../paymentMethod/card';
+import Card from '../paymentMethod/card';
 import Upi from "../paymentMethod/upi"
 import NetBanking from '../paymentMethod/netBanking';
 import Cash from '../paymentMethod/cash';
@@ -24,7 +25,7 @@ const payment = () => {
         case "one":
           return <Cash />;
         case 'two':
-          return <Cart />;
+          return <Card />;
         case 'three':
           return <Upi />;
         case 'four':
@@ -49,7 +50,7 @@ const payment = () => {
                     >
                         <Tab value="one" label="Cash on delivery" icon={<FontAwesomeIcon icon={faIndianRupeeSign} />} sx={{ minHeight: 64 }} />
                         <Tab value="two" label="Credit/Debit Card" icon={<FontAwesomeIcon icon={faCreditCard} />} sx={{ minHeight: 64 }} />
-                        <Tab value="three" label="UPI" />
+                        <Tab value="three" label="UPI" icon={<FaGooglePay size={40} />} />
                         <Tab value="four" label="Net Banking" icon={<FontAwesomeIcon icon={faBuildingColumns} />} sx={{ minHeight: 64 }} />
                     </Tabs>
                     {renderComponent(value)}

@@ -5,10 +5,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping, faDolly, faList } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
+import { setUsers } from '../redux/slices/order';
+import { store } from "../redux/store";
 
 export const Navbar = () => {
   const [orginalToken, setOrginalToken] = useState<string | null>(null);
   const [seller, setseller] = useState(false)
+
   useEffect(() => {
     const fetchData = async () => {
       if (typeof window !== 'undefined') {
@@ -22,8 +25,10 @@ export const Navbar = () => {
                 Authorization: `Bearer ${token}`
               }
             });
+            const users=response.data.user
             setseller(response.data.user.seller)
-            console.log(response.data.user.seller, "response");
+            store.dispatch(setUsers({users }))
+            console.log(users);
           } catch (error) {
             console.error('Error fetching user data:', error);
           }
