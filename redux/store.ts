@@ -1,19 +1,26 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web
+import storage from 'redux-persist/lib/storage';
 import orderReducer from './slices/order';
+import sellerReducer from './slices/seller';
 
-const persistConfig = {
-  key: 'root',
+const persistConfigOrder = {
+  key: 'order',
   storage,
 };
 
-const persistedOrderReducer = persistReducer(persistConfig, orderReducer);
+const persistConfigSeller = {
+  key: 'seller', 
+  storage,
+};
+
+const persistedOrderReducer = persistReducer(persistConfigOrder, orderReducer);
+const persistedSellerReducer = persistReducer(persistConfigSeller, sellerReducer);
 
 const store = configureStore({
   reducer: {
     order: persistedOrderReducer,
-    // Add other reducers if needed
+    seller: persistedSellerReducer,
   },
 });
 

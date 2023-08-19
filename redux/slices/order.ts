@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 export const order = createSlice({
-  name: 'order', // Change the name to 'order'
+  name: 'order', 
   initialState: {
     users:[],
     allData: [],
@@ -12,10 +12,10 @@ export const order = createSlice({
       state.users = action.payload.users;
     },
     setMatchedTenants: (state, action) => {
-      state.allData = action.payload.products; // Update the property name and payload
+      state.allData = action.payload.products;
     },
     setAddress: (state, action) => {
-      state.address = action.payload.formData; // Update the property name and payload
+      state.address = action.payload.formData;
     },
   },
 });

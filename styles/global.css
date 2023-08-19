@@ -343,3 +343,35 @@ footer {
   background-color: #1a1b21;
   color: #aaa;
 }
+.payment-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.payment-content {
+  flex-grow: 1;
+}
+
+.payment-footer {
+  flex-shrink: 0;
+}
+.page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.page-content {
+  flex-grow: 1;
+}
+
+.page-footer {
+  flex-shrink: 0;
+}
+
+.removesellerproduct{
+  position: relative;
+  left: -62px;
+  bottom: -27px;
+}

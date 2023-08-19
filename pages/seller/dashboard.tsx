@@ -2,7 +2,7 @@ import React from 'react';
 import { Navbar } from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCartShopping, faGears, faHouse, faUsers } from '@fortawesome/free-solid-svg-icons';
+import { faBoxesStacked, faCartShopping, faGears, faHouse, faUsers } from '@fortawesome/free-solid-svg-icons';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
@@ -51,7 +51,7 @@ const dashboard = () => {
           <Tab value="one" label="Home" icon={<FontAwesomeIcon icon={faHouse} />} sx={{ minHeight: 64 }} />
           <Tab value="two" label="Order" icon={<FontAwesomeIcon icon={faCartShopping} />} sx={{ minHeight: 64 }} />
           <Tab value="three" label="Customers" icon={<FontAwesomeIcon icon={faUsers} />} sx={{ minHeight: 64 }} />
-          <Tab value="four" label="Product" icon={<FontAwesomeIcon icon={faGears} />} sx={{ minHeight: 64 }} />
+          <Tab value="four" label="Product" icon={<FontAwesomeIcon icon={faBoxesStacked} />} sx={{ minHeight: 64 }} />
           <Tab value="five" label="Setting" icon={<FontAwesomeIcon icon={faGears} />} sx={{ minHeight: 64 }} />
         </Tabs>
         {renderComponent(value)}

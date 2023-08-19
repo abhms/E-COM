@@ -8,7 +8,7 @@ import Box from '@mui/material/Box'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FaHeart, FaGooglePay,FaHome, FaSearch } from 'react-icons/fa';
 import { faCreditCard, faIndianRupeeSign, faBuildingColumns } from '@fortawesome/free-solid-svg-icons';
-import Card from '../paymentMethod/card';
+import Cart from '../paymentMethod/card';
 import Upi from "../paymentMethod/upi"
 import NetBanking from '../paymentMethod/netBanking';
 import Cash from '../paymentMethod/cash';
@@ -25,7 +25,8 @@ const payment = () => {
         case "one":
           return <Cash />;
         case 'two':
-          return <Card />;
+          //@ts-ignore
+          return <Cart />;
         case 'three':
           return <Upi />;
         case 'four':
@@ -58,12 +59,12 @@ const payment = () => {
             </div>
 
 
-            <div style={{ minHeight: "calc(100vh - 60px)", display: "flex", flexDirection: "column" }}>
+           <div className ="mt-2" style={{ minHeight: "calc(100vh - 60px)", display: "flex", flexDirection: "column" }}>
                 <div className="cartfooter" style={{ marginTop: "auto" }}>
                     <Footer />
                 </div>
-            </div>
-
+            </div> 
+              
         </div>
     )
 }
