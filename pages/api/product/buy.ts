@@ -13,8 +13,7 @@ interface Address {
 }
 
 interface AllDataItem {
-    _id: string; // Adjust the type based on the actual type of _id
-    // Other properties...
+    _id: string;
 }
 interface Payment{
     payment:string
@@ -24,7 +23,6 @@ interface RequestBody {
     allData: AllDataItem[];
     address: Address;
     payment:Payment;
-    // Other properties...
 }
 
 export default async function handler(
@@ -46,10 +44,10 @@ export default async function handler(
         await Cart.updateMany(
             {
                 UserId: user._id,
-                productId: { $in: productIds }, // Match productIds in the array
+                productId: { $in: productIds }, 
             },
             {
-                $pull: { productId: { $in: productIds } } // Remove matched productIds
+                $pull: { productId: { $in: productIds } } 
             }
         );
         

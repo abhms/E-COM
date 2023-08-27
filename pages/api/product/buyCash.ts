@@ -19,8 +19,8 @@ interface Card {
     cvv: string
 }
 interface AllDataItem {
-    _id: string; // Adjust the type based on the actual type of _id
-    // Other properties...
+    _id: string;
+
 }
 interface Payment {
     payment: string
@@ -31,7 +31,6 @@ interface RequestBody {
     address: Address;
     payment: Payment;
     card: Card[]
-    // Other properties...
 }
 
 export default async function handler(
@@ -49,20 +48,11 @@ export default async function handler(
             return res.status(401).json({ error: 'User not found' });
         }
         console.log("User:", users);
-
-        // Rest of your logic...
-
-        // res.status(200).json({ message: 'Your product is on the way' });
-
         let totalPrice = 0;
-
-        // Calculate the total price based on the price property of each object in allData
-        allData.forEach((item:any) => {
-            totalPrice += item.price || 0; // Assuming each item has a "price" property
+        allData.forEach((item: any) => {
+            totalPrice += item.price || 0;
         });
-
         console.log("Total Price:", totalPrice);
-
         const product = await stripe.products.create({
             name: 'shopnow product',
             description: 'product',
@@ -74,23 +64,23 @@ export default async function handler(
             product: product.id,
         });
 
-        console.log(stripePrice,"stripePrice");
-        const productIds = allData.map((data:any) => data._id);
+        console.log(stripePrice, "stripePrice");
+        const productIds = allData.map((data: any) => data._id);
         await Cart.updateMany(
             {
                 UserId: users._id,
-                productId: { $in: productIds }, // Match productIds in the array
+                productId: { $in: productIds },
             },
             {
-                $pull: { productId: { $in: productIds } } // Remove matched productIds
+                $pull: { productId: { $in: productIds } }
             }
         );
-        
+
         const newOrder = new OrderedProduct({
             UserId: users._id,
             ProductId: productIds,
             Address: address,
-            Payment:"Card"
+            Payment: "Card"
         });
 
         await newOrder.save();

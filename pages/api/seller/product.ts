@@ -11,7 +11,6 @@ export default async function handler(
     const secretKey = process.env.JWT_SECRET!;
 
     const { productname, selectedProductType, price, description, fileUrl } = req.body;
-    // console.log("object",req.body);
     const token = req.headers.authorization?.replace('Bearer ', '') || req.cookies.token;
     if (!token) {
       return res.status(401).json({ error: 'Authorization token missing' });

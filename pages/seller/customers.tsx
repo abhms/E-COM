@@ -21,16 +21,19 @@ const Customers = () => {
   }, [])
 
   return (
-    <div className='mx-12'>
+    <div className='mx-12 border border-gray-300 rounded-lg shadow-md p-8 mb-6'>
       {user.map((newUser) => (
-        <div className="bg-white rounded-lg shadow-md p-6 w-full md:w-1/2 lg:w-1/3">
-          <h2 className="text-2xl font-semibold mb-4">Personal Information</h2>
+        <div className="">
+          <h2 className="text-2xl font-semibold mb-4">Customers</h2>
+            <span className="font-semibold"> FirstName:</span>
           {/**@ts-ignore */}
-          <p className="text-gray-600 mb-2"><span className="font-semibold">FirstName:</span> {newUser.firstname}</p>
+          <span className="text-gray-600 mb-2"> {newUser.firstname}
+              </span>
           {/**@ts-ignore */}
-          <p className="text-gray-600 mb-2"><span className="font-semibold">LastName:</span> {newUser.lastname}</p>
+          <p className="600 mb-2"><span className="font-semibold">LastName:</span> {newUser.lastname}</p>
+          <span className="font-semibold w-1/3">Email:</span>
           {/**@ts-ignore */}
-          <p className="text-gray-600 mb-2"><span className="font-semibold">Email:</span> {newUser.email}</p>
+           <span className="w-2/3">{newUser.email}</span>
         </div>
       ))}
     </div>

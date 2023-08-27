@@ -27,7 +27,6 @@ export default async function getUserHandler(
 
         console.log(orders, "orders");
 
-        // Iterate through each order and fetch product details
         const ordersWithProductDetails = await Promise.all(
             orders.map(async (order) => {
                 const productDetails = await Product.find({ _id: { $in: order.ProductId } });

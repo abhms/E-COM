@@ -63,7 +63,7 @@ const Seller = () => {
       return data.secure_url;
     };
     
-    const fileUrl = await uploadImage(); // Wait for the image to be uploaded and get the file URL
+    const fileUrl = await uploadImage(); 
     
     console.log(fileUrl, "datatatattatat");
     const token = localStorage.getItem('token');

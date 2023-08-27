@@ -13,8 +13,7 @@ import Upi from "../paymentMethod/upi"
 import NetBanking from '../paymentMethod/netBanking';
 import Cash from '../paymentMethod/cash';
 const payment = () => {
-    // const { allData, address } = useSelector((state: any) => state.order);
-    // console.log(allData, address, "allData,address")
+    
     const [value, setValue] = React.useState("one");
     const handleChange = (event: React.SyntheticEvent, newValue: string) => {
       setValue(newValue);
