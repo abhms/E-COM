@@ -375,3 +375,9 @@ footer {
   left: -62px;
   bottom: -27px;
 }
+
+.seeMoreButtonSellerOrder{
+  position: absolute;
+  right: -600px;
+  top: 100px;
+}
