@@ -9,7 +9,7 @@ import { setAllSellerOrder } from '../../redux/slices/seller';
 import { store } from '../../redux/store';
 const style = {
   position: 'fixed',
-  top: '50%', 
+  top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: '70%',
@@ -18,7 +18,7 @@ const style = {
   borderRadius: '8px',
   boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
   padding: '20px',
-  maxHeight: '90%', 
+  maxHeight: '90%',
   overflowY: 'auto',
 };
 const Order = () => {
@@ -27,13 +27,16 @@ const Order = () => {
 
   const [orders, setOrders] = useState([]);
   const [open, setOpen] = useState(false);
-var mergedData:any
+  var mergedData: any
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.post("/api/seller/order", { userId });
         mergedData = response.data.mergedData;
         setOrders(mergedData);
+        if (mergedData && mergedData.length > 0) {
+          store.dispatch(setAllSellerOrder({ orders: mergedData }));
+        }
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
@@ -41,12 +44,9 @@ var mergedData:any
 
     fetchData();
   }, []);
-  console.log(orders, "ordersss");
+  console.log(orders, "ordersss", mergedData);
   const handleOpen = () => {
-  
-    if (mergedData && mergedData.length > 0) {
-      store.dispatch(setAllSellerOrder({ orders: mergedData }));
-    }
+    console.log(mergedData, "mergedDatamergedData");
     setOpen(true)
   };
   const handleClose = () => {
@@ -92,7 +92,7 @@ var mergedData:any
             </tr>
 
           </tbody>
-          <button className="seeMoreButtonSellerOrder bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded my-1" type='button'onClick={() => handleOpen()}>
+          <button className="seeMoreButtonSellerOrder bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded my-1" type='button' onClick={() => handleOpen()}>
             See More
           </button>
         </table>
