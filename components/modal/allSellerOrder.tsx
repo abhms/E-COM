@@ -2,16 +2,40 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const allSellerOrder = () => {
-  const { allSellerOrder } = useSelector((state) => state.seller);
-  console.log(allSellerOrder, "inpopup");
+  const { allSellerOrder } = useSelector((state: any) => state.seller);
+  const { users } = useSelector((state: any) => state.order)
+  console.log(allSellerOrder, "inpopup", users._id);
 
-  const confirmOrder=async()=>{
-console.log("confirm");
-  }
-  const cancelOrder=async()=>{
-console.log("cancel Order");
+  const confirmOrder = async (productId: string, userEmail: string) => {
+    try {
+      const confirm = await axios.post(`/api/seller/confirmOrder/${productId}/${userEmail}/${users._id}`, {
+        sold: true
+      });
+      console.log("confirm", confirm);
+      toast(confirm.data.message, { hideProgressBar: true, autoClose: 2000, type: 'success' })
+      // Handle success or further actions here
+    } catch (error) {
+      // Handle errors here
+      console.error("Error confirming order:", error);
+    }
+  };
+  const cancelOrder = async (productId: string, userEmail: string) => {
+    try {
+      const confirm = await axios.post(`/api/seller/confirmOrder/${productId}/${userEmail}/${users._id}`, {
+        sold: false
+      });
+      console.log("confirm", confirm);
+      toast(confirm.data.message, { hideProgressBar: true, autoClose: 2000, type: 'success' })
+
+      // Handle success or further actions here
+    } catch (error) {
+      // Handle errors here
+      console.error("Error confirming order:", error);
+    }
   }
   return (
     <div>
@@ -25,7 +49,7 @@ console.log("cancel Order");
             <th className="border border-gray-400 py-2 px-4">Action</th>
           </tr>
         </thead>
-        {allSellerOrder && allSellerOrder.length > 0 && allSellerOrder.map((order, index) => (
+        {allSellerOrder && allSellerOrder.length > 0 && allSellerOrder.map((order: any, index: any) => (
           <>
 
             <tbody>
@@ -48,11 +72,13 @@ console.log("cancel Order");
                 {/**@ts-ignore */}
                 <td className="border border-gray-400 py-2 px-4">{order.userData.email}</td>
                 <td className="border border-gray-400 py-2 px-4">
-                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded my-1" onClick={confirmOrder}>
+                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded my-1"
+                    onClick={() => confirmOrder(order.productData._id, order.userData.email)}
+                  >
                     Accept
                   </button>
                   <Stack direction="row" spacing={2}>
-                    <Button variant="outlined" color="error" onClick={cancelOrder}>
+                    <Button variant="outlined" color="error" onClick={() => cancelOrder(order.productData._id, order.userData.email)}>
                       Reject
                     </Button>
                   </Stack>
