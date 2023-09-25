@@ -10,16 +10,15 @@ const allSellerOrder = () => {
   const { users } = useSelector((state: any) => state.order)
   console.log(allSellerOrder, "inpopup", users._id);
   const [productId, setProductId] = useState([])
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(`/api/seller/confirmOrder/${users._id}`);
+      console.log(response.data.PurchaseOrder, "this is the response");
+      setProductId(response.data.PurchaseOrder)
+    } catch (error) {
+    }
+  };
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`/api/seller/confirmOrder/${users._id}`);
-        console.log(response.data.PurchaseOrder, "this is the response");
-        setProductId(response.data.PurchaseOrder)
-      } catch (error) {
-      }
-    };
-
     fetchData();
   }, []);
   //@ts-ignore
@@ -30,6 +29,7 @@ const allSellerOrder = () => {
         sold: true
       });
       console.log("confirm", confirm);
+      fetchData();
       toast(confirm.data.message, { hideProgressBar: true, autoClose: 2000, type: 'success' })
       // Handle success or further actions here
     } catch (error) {
@@ -43,6 +43,7 @@ const allSellerOrder = () => {
         sold: false
       });
       console.log("confirm", confirm);
+      fetchData();
       toast(confirm.data.message, { hideProgressBar: true, autoClose: 2000, type: 'success' })
 
       // Handle success or further actions here
