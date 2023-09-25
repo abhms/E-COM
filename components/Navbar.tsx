@@ -2,16 +2,16 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import 'tailwindcss/tailwind.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCartShopping, faDolly, faList } from '@fortawesome/free-solid-svg-icons';
+import { faCartShopping, faDolly, faList, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { setUsers } from '../redux/slices/order';
 import { store } from "../redux/store";
-
+import { useRouter } from 'next/router';
 export const Navbar = () => {
   const [orginalToken, setOrginalToken] = useState<string | null>(null);
   const [seller, setseller] = useState(false)
-
+  const router = useRouter();
   useEffect(() => {
     const fetchData = async () => {
       if (typeof window !== 'undefined') {
@@ -39,6 +39,10 @@ export const Navbar = () => {
     fetchData();
   }, []);
 
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    router.push('/auth/signin'); 
+  };
   return (
     <nav className="bg-gray-800 text-white p-4">
       <div className="container mx-auto flex items-center justify-between">
@@ -96,6 +100,12 @@ export const Navbar = () => {
               </a>
               }
             </li>
+              <li>
+                <button onClick={handleLogout}>
+
+              <FontAwesomeIcon icon={faSignOutAlt} />Logout
+                </button>
+                </li>
           </ul>
         </div>
       </div>
