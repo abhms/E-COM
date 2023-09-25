@@ -90,7 +90,7 @@ const allSellerOrder = () => {
                   {order.ProductId[index] === productId[index]?.product ?
                     <>
                       {/**@ts-ignore */}
-                      {productId[index]?.sold ? <>Sold</> : <>Reject</>}
+                      {productId[index]?.sold ? <>Accepted</> : <>Reject</>}
                     </> :
                     <td className="border border-gray-400 py-2 px-4">
                       <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 border border-blue-700 rounded my-1"
