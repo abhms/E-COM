@@ -22,6 +22,6 @@ npm run dev
 ```
 ## Screenshots
 ![Seller](image.png)
-![Seller Dashboard](image-1.png)
+![Seller Dashboard](e-com\image-1.png)
 ![Seller Order](image-2.png)
 ![Buyer Payment](image-3.png)
