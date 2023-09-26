@@ -12,6 +12,8 @@ export const Navbar = () => {
   const [orginalToken, setOrginalToken] = useState<string | null>(null);
   const [seller, setseller] = useState(false)
   const router = useRouter();
+  const localToken = localStorage.getItem('token');
+  console.log(localToken, "token");
   useEffect(() => {
     const fetchData = async () => {
       if (typeof window !== 'undefined') {
@@ -25,9 +27,9 @@ export const Navbar = () => {
                 Authorization: `Bearer ${token}`
               }
             });
-            const users=response.data.user
+            const users = response.data.user
             setseller(response.data.user.seller)
-            store.dispatch(setUsers({users }))
+            store.dispatch(setUsers({ users }))
             console.log(users);
           } catch (error) {
             console.error('Error fetching user data:', error);
@@ -41,7 +43,7 @@ export const Navbar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('token');
-    router.push('/auth/signin'); 
+    router.push('/auth/signin');
   };
   return (
     <nav className="bg-gray-800 text-white p-4">
@@ -87,25 +89,25 @@ export const Navbar = () => {
                   {!seller ? <a href="/profile/cart" className="text-white hover:text-gray-300" style={{ paddingLeft: 13, textDecoration: 'none' }}>
                     <FontAwesomeIcon icon={faCartShopping} /> Cart
                   </a> : <a href="/seller/dashboard" className="text-white hover:text-gray-300" style={{ paddingLeft: 13, textDecoration: 'none' }}>
-                  <FontAwesomeIcon icon={faList} /> Dashboard
+                    <FontAwesomeIcon icon={faList} /> Dashboard
                   </a>}
                 </p>
               </div>
             </li>
             <li>
-              {!seller ?<Link href="/seller/sellerForm" className="text-white hover:text-gray-300" style={{ paddingLeft: 13, textDecoration: 'none' }}>
+              {!seller ? <Link href="/seller/sellerForm" className="text-white hover:text-gray-300" style={{ paddingLeft: 13, textDecoration: 'none' }}>
                 Become a Seller
-              </Link>:<a href="/seller" className="text-white hover:text-gray-300" style={{ paddingLeft: 13, textDecoration: 'none' }}>
-              <FontAwesomeIcon icon={faDolly} /> Add product
+              </Link> : <a href="/seller" className="text-white hover:text-gray-300" style={{ paddingLeft: 13, textDecoration: 'none' }}>
+                <FontAwesomeIcon icon={faDolly} /> Add product
               </a>
               }
             </li>
-              <li>
-                <button onClick={handleLogout}>
+            {localToken && <li>
+              <button onClick={handleLogout}>
 
-              <FontAwesomeIcon icon={faSignOutAlt} />Logout
-                </button>
-                </li>
+                <FontAwesomeIcon icon={faSignOutAlt} />Logout
+              </button>
+            </li>}
           </ul>
         </div>
       </div>

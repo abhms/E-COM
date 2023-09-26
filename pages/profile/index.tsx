@@ -9,9 +9,16 @@ import { useSelector } from 'react-redux';
 
 
 const Profile = () => {
-  const {users } = useSelector((state: any) => state.order);
-  const [product,setProduct]=useState([])
+  const { users } = useSelector((state: any) => state.order);
+  const [product, setProduct] = useState([])
+  const [allOrder, setAllOrder] = useState([])
   const [seller, setseller] = useState(false)
+  const headingStyle = {
+    color: '#00FF00',
+  };
+  const rejectStyle={
+    color: '#FF0000',
+  }
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -21,14 +28,16 @@ const Profile = () => {
           console.log('Token not found');
           return;
         }
-
+        const Order = await axios.get(`/api/user/get/${users.email}`)
+        setAllOrder(Order.data.PurchaseOrder)
+        console.log(allOrder, "ordein indexr", users._id, Order.data.PurchaseOrder);
         setseller(users.seller)
-        const getProduct =await axios.get("/api/user/get/getOrder",{
-          headers:{
-            Authorization:`Bearer ${token}`
+        const getProduct = await axios.get("/api/user/get/getOrder", {
+          headers: {
+            Authorization: `Bearer ${token}`
           }
         })
-        console.log(getProduct.data.ordersWithProductDetails,"getProduct");
+        console.log(getProduct.data.ordersWithProductDetails, "getProduct");
         setProduct(getProduct.data.ordersWithProductDetails)
       } catch (error) {
         console.error(error);
@@ -36,7 +45,7 @@ const Profile = () => {
     };
     fetchUserData();
   }, []);
-  console.log(product,"prooo")
+
   return (
     <>
       <Navbar />
@@ -59,7 +68,7 @@ const Profile = () => {
         <h1 className="text-2xl font-semibold mb-4">All orders from anytime</h1>
         {product.map((order, index) => (
           <div key={index} className="mb-4">
-                {/*@ts-ignore*/}
+            {/*@ts-ignore*/}
             {order.productDetails.map((productDetail, productIndex) => (
               <div key={productIndex} className="border p-4 rounded-md mb-2">
                 {/*@ts-ignore*/}
@@ -68,17 +77,19 @@ const Profile = () => {
                 <p className="text-gray-600">Type: {productDetail.selectedProductType}</p>
                 <p className="text-gray-600">Price: ${productDetail.price}</p>
                 <p className="text-sm">Description: {productDetail.description}</p>
+                {/**@ts-ignore */}
+                {allOrder[productIndex]?.product === productDetail?._id ? <>{allOrder[productIndex]?.sold ? <p style={headingStyle}>Status: Shiping</p> : <p style={rejectStyle}>Status:Rejected</p>}</> : <p>Pending</p>}
               </div>
             ))}
           </div>
         ))}
       </div>}
-      
+
       <div style={{ minHeight: "calc(100vh - 60px)", display: "flex", flexDirection: "column" }}>
-                <div className="cartfooter" style={{ marginTop: "auto" }}>
-                    <Footer/>
-                </div>
-            </div>
+        <div className="cartfooter" style={{ marginTop: "auto" }}>
+          <Footer />
+        </div>
+      </div>
     </>
   );
 };

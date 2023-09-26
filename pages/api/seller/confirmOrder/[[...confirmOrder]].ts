@@ -10,6 +10,8 @@ export default async function handler(
     try {
         const {confirmOrder}=req.query
         // @ts-ignore
+        console.log(confirmOrder[0],"confirmOrder[0]");
+        // @ts-ignore
       const PurchaseOrder=await Purchase.find({sellerId:confirmOrder[0]})
       console.log(PurchaseOrder);
       res.status(200).json({ message: 'All reject or accept Order',PurchaseOrder });

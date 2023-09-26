@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import { NextApiRequest, NextApiResponse } from 'next';
 import User from '../../../../models/User';
 import OrderedProduct from '../../../../models/OrderedProduct';
-import Product from '../../../../models/Product'; // Import your Product schema
+import Product from '../../../../models/Product'; 
 
 export default async function getUserHandler(
     req: NextApiRequest,
@@ -25,7 +25,6 @@ export default async function getUserHandler(
 
         const orders = await OrderedProduct.find({ UserId: user._id });
 
-        console.log(orders, "orders");
 
         const ordersWithProductDetails = await Promise.all(
             orders.map(async (order) => {
@@ -36,7 +35,6 @@ export default async function getUserHandler(
                 };
             })
         );
-            console.log(ordersWithProductDetails,"ordersWithProductDetails");
         res.status(200).json({ ordersWithProductDetails });
     } catch (error) {
         console.error('Error:', error);

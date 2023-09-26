@@ -21,7 +21,7 @@ export default async function handler(
         const productIds = products.map(product => product._id);
         const productIdsAsStrings = productIds.map(id => new ObjectId(id).toString());
         const orders = await Order.find({ ProductId: { $in: productIdsAsStrings } });
-        console.log(productIdsAsStrings,"orders",productIds);
+        // console.log(productIdsAsStrings,"orders",productIds);
         const mergedData: MergedItem[] = [];
         // for (const order of orders) {
         //     const matchingProduct = products.find(product =>{
@@ -65,7 +65,7 @@ export default async function handler(
                 const productIdsFromOrder = order.ProductId.toString().split(',');
                 for (const productIdFromOrder of productIdsFromOrder) {
                     if (product._id.toString() === productIdFromOrder) {
-                        console.log("Matching product:", product._id.toString(), "Order ProductId:", productIdFromOrder);
+                        // console.log("Matching product:", product._id.toString(), "Order ProductId:", productIdFromOrder);
         
                         const matchingUser = await User.findOne({ _id: order.UserId });
         
