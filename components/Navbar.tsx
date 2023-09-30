@@ -11,6 +11,7 @@ import { useRouter } from 'next/router';
 export const Navbar = () => {
   const [orginalToken, setOrginalToken] = useState<string | null>(null);
   const [seller, setseller] = useState(false)
+  const [search,setSearch]=useState("")
   const router = useRouter();
   const localToken = localStorage.getItem('token');
   console.log(localToken, "token");
@@ -45,6 +46,26 @@ export const Navbar = () => {
     localStorage.removeItem('token');
     router.push('/auth/signin');
   };
+
+  useEffect(() => {
+    const fetchSearchResults = async (e: KeyboardEvent) => {
+      try {
+        if (e.key === 'Enter' && search.length > 1) {
+          router.push(`/search/${search}`)
+        }
+      } catch (error) {
+        console.error("Error searching:", error);
+      }
+    };
+  
+    document.addEventListener("keydown", fetchSearchResults);
+  
+    return () => {
+      document.removeEventListener("keydown", fetchSearchResults);
+    };
+  }, [search]);
+  
+    
   return (
     <nav className="bg-gray-800 text-white p-4">
       <div className="container mx-auto flex items-center justify-between">
@@ -67,6 +88,9 @@ export const Navbar = () => {
             type="text"
             placeholder="Search"
             className="px-3 py-1 rounded-lg bg-gray-200 text-black focus:outline-none"
+            onChange={(e) => 
+              setSearch(e.target.value)
+            }
           />
           {/* Profile and Navigation Links */}
           <ul className="flex space-x-4 list-none ml-4">

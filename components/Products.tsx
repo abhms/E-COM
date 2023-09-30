@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
 
 interface Product {
   id: number;
@@ -17,6 +18,7 @@ interface ProductListProps {
 const ProductList: React.FC<ProductListProps> = ({ products }) => {
   const [token, setOriginalToken] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true); 
+  const { users } = useSelector((state: any) => state.order);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -68,20 +70,18 @@ const ProductList: React.FC<ProductListProps> = ({ products }) => {
                 className="cartImg"
               />
             </div>
-            <h2 className="text-xl font-bold mb-2">{product.name}</h2>
-            <p className="text-gray-600 mb-2">${product.price} BNB</p>
-            <p className="text-gray-800">{product.description}</p>
             {/* @ts-ignore */}
-            <button
+            <h2 className="text-xl font-bold mb-2">{product.productname}</h2>
+            <p className="text-gray-600 mb-2">${product.price} BNB</p>
+            {/* @ts-ignore */}
+            {!users.seller && <button
               className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
               //@ts-ignore
               onClick={() => addToCart(product._id)} 
             >
               Add to Cart
-            </button>
-            <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mx-7 cartbtn">
-              Buy
-            </button>
+            </button>}
+            
           </div>
         ))
       )}
