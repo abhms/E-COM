@@ -148,7 +148,7 @@ const Seller = () => {
 
           <div className="mb-4">
             <label htmlFor="price" className="block text-lg font-medium mb-2">
-              Product Price (in crypto):
+              Product Price:
             </label>
             <input
               type="text"

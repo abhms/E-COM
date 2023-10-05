@@ -8,7 +8,7 @@ export default async function getProduct(
 
 
     try {
-        const pro=await Product.find({});
+        const pro=await Product.find({deleted:false});
         console.log(pro,"pro");
         res.status(200).json({ product:pro });
     } catch (error) {

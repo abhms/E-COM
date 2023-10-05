@@ -26,7 +26,7 @@ export default async function handler(
 
     const newProduct = new Product({
       sellerId:user?._id,
-      productname, selectedProductType, price, description, fileUrl,
+      productname, selectedProductType, price, description, fileUrl,deleted:false,
     });
     const sellerUser =await User.findOneAndUpdate({_id:user?._id},{
       seller:true

@@ -7,6 +7,10 @@ const ProductSchema = new mongoose.Schema({
     price: Number,
     description: String,
     fileUrl: String,
+    deleted: {
+      type: Boolean,
+      default: false, 
+    },
 },
 {
   timestamps: true,
