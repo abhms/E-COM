@@ -96,13 +96,13 @@ export const Navbar = () => {
           <ul className="flex space-x-4 list-none ml-4">
             {orginalToken && orginalToken.length > 0 ? (
               <li>
-                <Link href="/profile" className="text-white hover:text-gray-300" style={{ paddingLeft: 13, textDecoration: 'none' }}>
+                <Link href="/profile" className="text-white hover:text-gray-300" style={{ fontSize: 18 ,paddingLeft: 13, textDecoration: 'none' }}>
                   <FontAwesomeIcon icon={faUser} /> Profile
                 </Link>
               </li>
             ) : (
               <li>
-                <Link href="/auth/signin" className="text-white hover:text-gray-300" style={{ paddingLeft: 13, textDecoration: 'none' }}>
+                <Link href="/auth/signin" className="text-white hover:text-gray-300" style={{ fontSize: 18 ,paddingLeft: 13, textDecoration: 'none' }}>
                   Signin
                 </Link>
               </li>
@@ -110,18 +110,18 @@ export const Navbar = () => {
             <li>
               <div>
                 <p>
-                  {!seller ? <a href="/profile/cart" className="text-white hover:text-gray-300" style={{ paddingLeft: 13, textDecoration: 'none' }}>
+                  {!seller ? <a href="/profile/cart" className="text-white hover:text-gray-300" style={{fontSize: 18 , paddingLeft: 13, textDecoration: 'none' }}>
                     <FontAwesomeIcon icon={faCartShopping} /> Cart
-                  </a> : <a href="/seller/dashboard" className="text-white hover:text-gray-300" style={{ paddingLeft: 13, textDecoration: 'none' }}>
+                  </a> : <a href="/seller/dashboard" className="text-white hover:text-gray-300" style={{ fontSize: 18 ,paddingLeft: 13, textDecoration: 'none' }}>
                     <FontAwesomeIcon icon={faList} /> Dashboard
                   </a>}
                 </p>
               </div>
             </li>
             <li>
-              {!seller ? <Link href="/seller/sellerForm" className="text-white hover:text-gray-300" style={{ paddingLeft: 13, textDecoration: 'none' }}>
+              {!seller ? <Link href="/seller/sellerForm" className="text-white hover:text-gray-300" style={{ fontSize: 18 ,paddingLeft: 13, textDecoration: 'none' }}>
                 Become a Seller
-              </Link> : <a href="/seller" className="text-white hover:text-gray-300" style={{ paddingLeft: 13, textDecoration: 'none' }}>
+              </Link> : <a href="/seller" className="text-white hover:text-gray-300" style={{fontSize: 18 , paddingLeft: 13, textDecoration: 'none' }}>
                 <FontAwesomeIcon icon={faDolly} /> Add product
               </a>
               }
